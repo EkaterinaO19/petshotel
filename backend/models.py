@@ -21,6 +21,8 @@ class Owner(BaseModel):
 class Hotel(BaseModel):
     name: str
     phone: str
+    hotel_owner_name: str
+    hotel_owner_surname: str
     location: str
     conditions: str
     animal_types: List[str]
