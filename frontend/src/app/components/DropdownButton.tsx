@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { FiMenu } from "react-icons/fi";
 import styles from '../styles/DropdownButton.module.scss'
@@ -9,13 +9,14 @@ import styles from '../styles/DropdownButton.module.scss'
 const DropdownButton: React.FC = () => {
   const [isDropdownOpen, setDropdownOpen] = useState(false);
 
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
   const toggleDropdown = () => {
     setDropdownOpen(!isDropdownOpen);
   };
 
   const handleClickOutside = (event: MouseEvent) => {
-    const dropdown = document.querySelector('.dropdown');
-    if (dropdown && !dropdown.contains(event.target as Node)) {
+    if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
       setDropdownOpen(false);
     }
   };
@@ -28,7 +29,7 @@ const DropdownButton: React.FC = () => {
   }, []);
 
   return (
-    <div className={styles.dropdown}>
+    <div className={styles.dropdown} ref={dropdownRef}>
       <div className={styles.dropdown__button} onClick={toggleDropdown}>
       <FiMenu size="24" color="#FFFFFF"/>
       </div>

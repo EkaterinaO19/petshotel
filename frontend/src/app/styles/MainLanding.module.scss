@@ -2,5 +2,11 @@
 
 .container{
     height: 695px;
-    background-color: $monyellow;
+    background-color: $monyellow40;
+    display: flex;
+    align-items: center
+}
+
+.column {
+  flex: 1;
 }
