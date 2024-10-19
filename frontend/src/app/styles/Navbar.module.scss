@@ -1,0 +1,26 @@
+@import './variables';
+
+.navbar {
+    background-color: $monyellow;
+    height: 100px;
+    display: flex;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: space-around;
+    align-items: center;
+    color: $darkblue;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.menu{
+    display: flex;
+
+    li {
+        margin-right: 3vw;
+    }
+
+    li:last-child {
+        margin-right: 0; 
+      }
+}

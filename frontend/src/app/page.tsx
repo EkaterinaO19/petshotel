@@ -1,21 +1,17 @@
 import Link from 'next/link';
 import styles from '../styles/Home.module.scss';
 import Navbar from './components/Navbar';
+import MainLanding from './screens/MainLanding';
 
 const HomePage: React.FC = () => {
   return (
-    <>
-            <Navbar />
-          <main>
-            <h1>Welcome to Pet Hotels!</h1>
-            <nav>
+    <div>
+        <Navbar />
+        <main>
+          <MainLanding/>
         
-                <Link href="/login">Login</Link>
-                <Link href="/register">Register</Link>
-            </nav>
-            {/* Add hotel cards and search filters here */}
         </main>
-    </>
+    </div>
 
   );
 }

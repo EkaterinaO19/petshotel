@@ -1,0 +1,26 @@
+@import './variables';
+
+
+.dropdown {
+    background-color: $darkblue;
+    padding: 1vw;
+    border-radius: 57px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.dropdown__button {
+    display: flex;
+}
+
+.dropdown__menu {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    color: $white;
+    background-color: $darkblue;
+    margin-top: 6vh;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 14px;
+}

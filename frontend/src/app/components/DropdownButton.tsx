@@ -2,6 +2,8 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { FiMenu } from "react-icons/fi";
+import styles from '../styles/DropdownButton.module.scss'
 
 
 const DropdownButton: React.FC = () => {
@@ -26,15 +28,15 @@ const DropdownButton: React.FC = () => {
   }, []);
 
   return (
-    <div className="dropdown">
-      <button className="dropdown__button" onClick={toggleDropdown}>
-        AV
-      </button>
+    <div className={styles.dropdown}>
+      <div className={styles.dropdown__button} onClick={toggleDropdown}>
+      <FiMenu size="24" color="#FFFFFF"/>
+      </div>
       {isDropdownOpen && (
-        <ul className="dropdown__menu">
-          <Link href="/register">Зарегистрироваться</Link>
-          <Link href="/login">Вход</Link>
-        </ul>
+        <div className={styles.dropdown__menu}>
+            <Link href="/register">Зарегистрироваться</Link>
+            <Link href="/login">Вход</Link>
+        </div>
       )}
     </div>
   );
