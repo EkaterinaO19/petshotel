@@ -2,22 +2,38 @@
 
 .container {
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Две колонки с одинаковой шириной */
+  grid-template-columns: 1fr 1fr; 
   align-items: center;
-  height: 100vh; /* Высота на весь экран */
   background-color: $monyellow40;
 }
 
 .textColumn {
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Центровка текста по вертикали */
-  padding: 0 3vw; /* Отступы по бокам */
+  justify-content: center; 
+  padding: 0 3vw; 
   color: $darkblue;
 }
 
 .imageColumn {
   display: flex;
-  justify-content: center; /* Центровка изображения по горизонтали */
-  align-items: flex-end; /* Привязка изображения к нижнему краю */
+  justify-content: center; 
+  align-items: flex-end; 
+}
+
+.petContainer{
+  z-index: 2;
+}
+.rectContainer {
+  width: fit-content;
+  height: auto;
+  position: absolute;
+  z-index: 1;
+}
+
+.rectContainer1{
+  width: fit-content;
+  height: auto;
+  position: absolute;
+  right: 135px;
 }
