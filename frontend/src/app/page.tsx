@@ -4,7 +4,7 @@ import Navbar from './components/Navbar';
 import MainLanding from './screens/MainLanding';
 import logo from './assets/Rectangle_9.png';
 import Image from 'next/image';
-
+import rect2  from './assets/Rectangle_2.png'
 
 
 const HomePage: React.FC = () => {
@@ -22,7 +22,17 @@ const HomePage: React.FC = () => {
         </div>  
         <main>
           <MainLanding/>
-        
+          {/* <div className={styles.rectContainer}>
+            <Image 
+          src={rect2}
+          alt="Логотип"
+          layout="responsive" // Использует адаптивное масштабирование
+          width={500} // Укажите желаемую ширину
+          height={300} // Укажите высоту, пропорциональную ширине
+          objectFit="contain"
+          />  
+          </div> */}
+          
         </main>
     </>
 

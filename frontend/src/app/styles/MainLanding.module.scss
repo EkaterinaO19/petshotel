@@ -1,12 +1,23 @@
 @import './variables';
 
-.container{
-    height: 695px;
-    background-color: $monyellow40;
-    display: flex;
-    align-items: center
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr; /* Две колонки с одинаковой шириной */
+  align-items: center;
+  height: 100vh; /* Высота на весь экран */
+  background-color: $monyellow40;
 }
 
-.column {
-  flex: 1;
+.textColumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Центровка текста по вертикали */
+  padding: 0 3vw; /* Отступы по бокам */
+  color: $darkblue;
+}
+
+.imageColumn {
+  display: flex;
+  justify-content: center; /* Центровка изображения по горизонтали */
+  align-items: flex-end; /* Привязка изображения к нижнему краю */
 }
