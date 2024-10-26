@@ -1,12 +1,28 @@
 # main.py
-# main.py
 from fastapi import FastAPI
 from routes import router
 import aiosqlite
 from fastapi.responses import JSONResponse
-from database import create_tables  # Импортируйте функцию создания таблиц
+from database import create_tables  
+from fastapi.middleware.cors import CORSMiddleware
+
 
 app = FastAPI()
+
+# Allow CORS for specified origins
+origins = [
+    "http://localhost:3000",  # Your frontend URL
+    # You can add more origins if needed
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all HTTP methods
+    allow_headers=["*"],  # Allow all headers
+)
+
 
 @app.on_event("startup")
 async def startup_event():
