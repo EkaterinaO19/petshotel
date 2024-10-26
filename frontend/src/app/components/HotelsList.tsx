@@ -14,7 +14,19 @@ const HotelList:React.FC = () => {
         const loadHotels = async() => {
             try {
                 const data = await fetchHotels();
-                setHotels(data)
+
+                const transformedHotels = data.map((hotel: Hotel) => ({
+                    id: hotel.id,
+                    name: hotel.name,
+                    hotelOwnerName: hotel.hotel_owner_name, // Map this correctly
+                    location: hotel.location,
+                    animalTypes: hotel.animal_types, // This should be an array
+                    pricePerDay: hotel.price_per_day, // Map price correctly
+                    photos: hotel.photos,
+                    rating: hotel.rating,
+                }));
+
+                setHotels(transformedHotels)
             }
             catch (error) {
                 setError('Failed to fetch hotels' + error)
@@ -33,9 +45,18 @@ const HotelList:React.FC = () => {
         <h1>Hotels</h1>
         <ul>
                 {hotels.map((hotel) => (
-                    <HotelCard key={hotel.id} {...hotel} />
+                                     <HotelCard 
+                                     key={hotel.id} 
+                                     name={hotel.name} 
+                                     hotelOwnerName={hotel.hotelOwnerName} 
+                                     location={hotel.location} 
+                                     animalTypes={hotel.animalTypes} 
+                                     pricePerDay={hotel.pricePerDay} 
+                                     photos={hotel.photos} 
+                                     rating={hotel.rating} 
+                                 />
                 ))}
-        </ul>
+            </ul>
     </div>
     )
 }
