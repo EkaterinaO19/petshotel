@@ -1,126 +1,50 @@
-# routes.py
 from fastapi import APIRouter, HTTPException
-from models import Owner, Hotel
-from database import database
-from typing import Optional, List, Dict
-from pydantic import BaseModel, Field
-
-
-router = APIRouter()
-
-from fastapi import APIRouter, Depends, HTTPException
+from models import OwnerData, Hotel
+from database import insert_owner, insert_hotel, get_db_connection
 from typing import List
 
 router = APIRouter()
 
-# Модели для данных
-class OwnerData(BaseModel):
-    name: str
-    email: str
-    phone: Optional[str] = None
-
-    class Config:
-        schema_extra = {
-            "example": {
-                "name": "Alice Smith",
-                "email": "alice@example.com",
-                "phone": "123-456-7890"
-            }
-        }
-
-class HotelOwnerData(BaseModel):
-    name: str
-    email: str
-    address: str
-
-    class Config:
-        schema_extra = {
-            "example": {
-                "name": "John Doe",
-                "email": "john@example.com",
-                "address": "123 Main St, City"
-            }
-        }
-
-class ProfileData(BaseModel):
-    animal_name: str
-    animal_age: int
-    breed: str
-    gender: str
-
-    class Config:
-        schema_extra = {
-            "example": {
-                "animal_name": "Buddy",
-                "animal_age": 3,
-                "breed": "Golden Retriever",
-                "gender": "male"
-            }
-        }
-
-class StayDates(BaseModel):
-    start_date: str
-    end_date: str
-
-    class Config:
-        schema_extra = {
-            "example": {
-                "start_date": "2023-10-01",
-                "end_date": "2023-10-10"
-            }
-        }
-
-class PaymentData(BaseModel):
-    amount: float
-    method: str
-
-    class Config:
-        schema_extra = {
-            "example": {
-                "amount": 150.0,
-                "method": "credit_card"
-            }
-        }
-
-# Роуты с примерами
 @router.post("/register/owner")
 async def register_owner(owner_data: OwnerData):
-    return {"message": "Owner registered successfully"}
+    owner_id = await insert_owner(owner_data.dict())
+    return {"message": "Owner registered successfully", "owner_id": owner_id}
 
-@router.post("/register/hotel-owner")
-async def register_hotel_owner(hotel_owner_data: HotelOwnerData):
-    return {"message": "Hotel owner registered successfully"}
+@router.post("/register/hotel")
+async def register_hotel(hotel_data: Hotel):
+    hotel_id = await insert_hotel(hotel_data.dict())
+    return {"message": "Hotel registered successfully", "hotel_id": hotel_id}
 
-@router.post("/profile/{user_id}/create")
-async def create_profile(user_id: int, profile_data: ProfileData):
-    return {"message": f"Profile for user {user_id} created"}
+@router.get("/hotels", response_model=List[Hotel])
+async def get_all_hotels():
+    conn = await get_db_connection()
+    try:
+        cursor = await conn.execute("SELECT * FROM hotels")
+        rows = await cursor.fetchall()
+        await conn.close()
 
-@router.get("/hotels/search")
-async def search_hotels(
-    district: Optional[str] = None,
-    animal_type: Optional[str] = None,
-    price_range: Optional[str] = None,
-    rating: Optional[int] = None,
-    conditions: Optional[str] = None
-):
-    return {"message": "Filtered hotels list"}
+        # Convert rows to dictionaries
+        hotels = []
+        for row in rows:
+            hotel = {
+                "id": row["id"],
+                "name": row["name"],
+                "phone": row["phone"],
+                "hotel_owner_name": row["hotel_owner_name"],
+                "hotel_owner_surname": row["hotel_owner_surname"],
+                "location": row["location"],
+                "conditions": row["conditions"],
+                "animal_types": row["animal_types"].split(",") if row["animal_types"] else [],  # Convert to list
+                "price_per_day": row["price_per_day"],
+                "photos": row["photos"].split(",") if row["photos"] else [],  # Convert to list
+                "rating": row["rating"]
+            }
+            hotels.append(hotel)
 
-@router.get("/hotels/{hotel_id}")
-async def get_hotel_details(hotel_id: int):
-    return {"message": f"Details of hotel {hotel_id}"}
+        if not hotels:
+            raise HTTPException(status_code=404, detail="No hotels found")
 
-@router.post("/booking/select-hotel")
-async def select_hotel(hotel_id: int, user_id: int, stay_dates: StayDates):
-    return {"message": "Hotel selected and availability checked"}
-
-@router.post("/booking/generate-agreement")
-async def generate_agreement(booking_id: int):
-    return {"message": f"Agreement generated for booking {booking_id}"}
-
-@router.post("/booking/confirm-payment")
-async def confirm_payment(booking_id: int, payment_data: PaymentData):
-    return {"message": f"Payment confirmed for booking {booking_id}"}
-
-@router.post("/booking/send-confirmation")
-async def send_confirmation(booking_id: int):
-    return {"message": f"Confirmation sent for booking {booking_id}"}
+        return hotels
+    except Exception as e:
+        print(f"Error fetching hotels: {e}")
+        raise HTTPException(status_code=500, detail="Internal Server Error")

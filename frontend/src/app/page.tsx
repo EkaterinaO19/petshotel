@@ -10,7 +10,13 @@ const HomePage: React.FC = () => {
     <Navbar />
         <main>
           <MainLanding/>
-               
+          <>
+          {/* <Image src/> */}
+          <p>Назвние отеля</p>
+          <p>цена в сутки</p>
+          <p>рейтинг (0-5)</p>
+
+          </>     
         </main>
     </>
 
