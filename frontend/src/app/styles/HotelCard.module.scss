@@ -4,11 +4,48 @@
     padding: 16px;
     margin: 16px;
     text-align: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 7px 8px rgba(0, 0, 0, 0.1);
 }
 
 .hotelImage{
-    width: 100%;
+    width: 20vw;;
     height: auto;
     border-radius: 4px;
 }
+
+.hotelInfo {
+    text-align: left;
+}
+
+.navigationBtns {
+    display: flex;
+    justify-content: center;
+}
+
+.sliderContainer {
+    position: relative;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    overflow: hidden;
+  }
+  
+  .sliderWrapper {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+  }
+  
+  .slide {
+    min-width: 100%;
+    transition: opacity 0.5s ease-in-out;
+    opacity: 0;
+  }
+  
+  .slide.active {
+    opacity: 1;
+  }
+  
+  .sliderImage {
+    width: 100%;
+    height: auto;
+  }

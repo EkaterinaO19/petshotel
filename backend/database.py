@@ -65,3 +65,13 @@ async def insert_hotel(hotel_data):
         )
         await db.commit()
         return cursor.lastrowid  # Возвращает ID гостиницы
+
+    
+async def delete_hotel(hotel_id: int):
+    conn = await get_db_connection()
+    try:
+        cursor = await conn.execute("DELETE FROM hotels WHERE id = ?", (hotel_id,))
+        await conn.commit()
+        return cursor.rowcount  # Return the number of deleted rows
+    finally:
+        await conn.close()    

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { fetchHotels } from '../utils/api';
 import { Hotel } from '../interfaces/interface';
 import HotelCard from '../components/HotelCard'
+import styles from '../styles/HotelList.module.scss'
 
 
 const HotelList:React.FC = () => {
@@ -43,7 +44,7 @@ const HotelList:React.FC = () => {
     return (
         <div>
         <h1>Hotels</h1>
-        <ul>
+        <div className={styles.hotelList}>
                 {hotels.map((hotel) => (
                                      <HotelCard 
                                      key={hotel.id} 
@@ -56,7 +57,7 @@ const HotelList:React.FC = () => {
                                      rating={hotel.rating} 
                                  />
                 ))}
-            </ul>
+            </div>
     </div>
     )
 }

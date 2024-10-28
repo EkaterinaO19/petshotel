@@ -12,6 +12,7 @@ const HomePage: React.FC = () => {
         <main>
           <MainLanding/>
           <HotelList />  
+          
         </main>
     </>
 

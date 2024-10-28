@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from models import OwnerData, Hotel
-from database import insert_owner, insert_hotel, get_db_connection
+from database import delete_hotel, insert_owner, insert_hotel, get_db_connection
 from typing import List
 
 router = APIRouter()
@@ -48,3 +48,20 @@ async def get_all_hotels():
     except Exception as e:
         print(f"Error fetching hotels: {e}")
         raise HTTPException(status_code=500, detail="Internal Server Error")
+    
+
+# endpoint to delete a hotel by ID
+@router.delete("/hotels/{hotel_id}")
+async def delete_hotel_by_id(hotel_id: int):
+    conn = await get_db_connection()
+    try:
+        # Call the function to delete the hotel from the database
+        deleted_count = await delete_hotel(hotel_id)
+
+        if deleted_count == 0:
+            raise HTTPException(status_code=404, detail="Hotel not found")
+
+        return {"message": "Hotel deleted successfully"}
+    except Exception as e:
+        print(f"Error deleting hotel: {e}")
+        raise HTTPException(status_code=500, detail="Internal Server Error")    
