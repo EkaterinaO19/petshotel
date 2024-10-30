@@ -7,6 +7,7 @@ import HotelCard from '../components/HotelCard'
 import styles from '../styles/HotelList.module.scss'
 
 
+
 const HotelList:React.FC = () => {
     const [hotels, setHotels] = useState<Hotel[]>([]);
     const [error, setError] = useState<string | null>(null);
@@ -42,8 +43,9 @@ const HotelList:React.FC = () => {
     }
 
     return (
-        <div>
-        <h1>Hotels</h1>
+        <div className={styles.listContainer}>
+
+        
         <div className={styles.hotelList}>
                 {hotels.map((hotel) => (
                                      <HotelCard 

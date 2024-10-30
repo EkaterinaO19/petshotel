@@ -3,7 +3,9 @@ import { HotelCardMiniProps } from '../interfaces/interface';
 import styles from '../styles/HotelCard.module.scss'
 import Image from 'next/image';
 import { FiChevronRight, FiChevronLeft, FiStar } from "react-icons/fi";
-import noPhotoImg from '../assets/no-photo.png'
+import noPhotoImg from '../assets/no-photo.png';
+import { FiHeart } from "react-icons/fi";
+
 
 const HotelCard: React.FC<HotelCardMiniProps> = ({
     name,
@@ -28,6 +30,7 @@ const HotelCard: React.FC<HotelCardMiniProps> = ({
     return (
         <div className={styles.hotelCard}>
              <div className={styles.sliderContainer}>
+                <FiHeart className={styles.heartIcon}/>
                 <div className={styles.sliderWrapper}>
                     {photos.length > 0 ? (
                         photos.map((photo, index) => (
@@ -67,7 +70,6 @@ const HotelCard: React.FC<HotelCardMiniProps> = ({
                 <p><strong>Цена/сут.:</strong> руб.{pricePerDay}</p>
                 <p><strong>Рейтинг:</strong> {rating} <FiStar /></p>
             </div>
-            
         </div>
     )
 }

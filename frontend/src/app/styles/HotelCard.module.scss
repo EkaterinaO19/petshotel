@@ -5,12 +5,29 @@
     margin: 16px;
     text-align: center;
     box-shadow: 0 7px 8px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+}
+
+.heartIcon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    color: white;
+    z-index: 10;
+    cursor: pointer;
+    transform: transform 0.3s ease;
+}
+
+.heartIcon:hover {
+    transform: scale(1.2);
 }
 
 .hotelImage{
-    width: 20vw;;
-    height: auto;
+    width: 264px;
+    height: 264px;
     border-radius: 4px;
+    object-fit: cover;
 }
 
 .hotelInfo {

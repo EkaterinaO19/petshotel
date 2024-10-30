@@ -1,0 +1,33 @@
+@import './variables';
+
+
+.listItem {
+    flex: 1; /* Make each item flexible */
+    min-width: 300px;
+    color: $darkblue;    
+
+}
+
+.listItem:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: -10px; /* Отступ линии от текста */
+    top: 50%; /* Центрирование по вертикали */
+    transform: translateY(-50%); /* Центрирование по вертикали */
+    height: 25px; /* Высота линии */
+    width: 1.2px; /* Ширина линии */
+    background-color: #ccc; /* Цвет линии */
+}
+
+.searchBtn {
+
+}
+
+// .inputItem {
+//     border: none; 
+//     outline: none; 
+// }
+
+// .inputItem [type="date"] {
+//     background-color: transparent; /* Прозрачный фон для инпутов даты */
+// }
