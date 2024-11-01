@@ -6,7 +6,7 @@ import { Input, DatePicker, Button, Select } from 'antd';
 import { FiSearch } from 'react-icons/fi';
 import { ConfigProvider } from 'antd';
 import ruRU from 'antd/lib/locale/ru_RU';
-
+import { Form } from "antd";
 
 const { RangePicker } = DatePicker;
 const { Option } = Select;
@@ -23,40 +23,43 @@ const animalOptions = [
     { value: 'others', label: 'Другое' },
 ];
 
+
+type LayoutType = Parameters<typeof Form>[0]['layout'];
+
+
 const SearchBar: React.FC = () => {
+    const [form] = Form.useForm();
+
+
     return (
-        <div style={{display:'flex', padding:'4vw', alignItems:'center'}}>
-        <div className={styles.listItem}>
-            <label className={styles.label}>Где</label>
-            <Input placeholder="Выберите место" id="location" />
-        </div>
-        <div className={styles.listItem}>
-            <p>Заезд</p>
+        <Form layout={"inline"} style={{display:'flex', padding:'2vw', alignItems:'center'}}>
+            <Form.Item label="Место">            
+                <Input placeholder="Выберите место" id="location" />
+            </Form.Item>  
+            <Form.Item label="Заезд">            
             <ConfigProvider locale={ruRU}>            
                 <DatePicker placeholder="Выберите дату" id="checkin" />
             </ConfigProvider>
-        </div>
-        <div className={styles.listItem}>
-        <p>Выезд</p>
-        <ConfigProvider locale={ruRU}>            
-
-            <DatePicker placeholder="Выберите дату" id="checkout" />
-        </ConfigProvider>    
-        </div>
-        <div className={styles.listItem}>
-            <p>Животные</p>
+            </Form.Item>  
+            <Form.Item label="Выезд">            
+            <ConfigProvider locale={ruRU}>            
+                <DatePicker placeholder="Выберите дату" id="checkout" />
+            </ConfigProvider>
+            </Form.Item>  
+            <Form.Item label="Тип Животного">            
             <Select placeholder="Выберите тип животного" id="animal-type" >
                 {animalOptions.map((animal) => (
                     <Option key={animal.value} value={animal.value}>{animal.label}</Option>
                 ))}
             </Select>
-        </div>
-        <div className={styles.searchBtn}>
+            </Form.Item>  
+            <Form.Item>  
             <Button type="primary" icon={<FiSearch />}>
                 Поиск
-            </Button>
-        </div>
-    </div>
+            </Button>          
+            </Form.Item>  
+        </Form>
+        
 )
 }
 
