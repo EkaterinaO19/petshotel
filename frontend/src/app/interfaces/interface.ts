@@ -13,6 +13,7 @@ export interface Hotel {
 }
 
 export interface HotelCardMiniProps {
+    id: number;
     name: string;
     hotelOwnerName: string;
     location: string;

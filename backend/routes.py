@@ -50,6 +50,38 @@ async def get_all_hotels():
         raise HTTPException(status_code=500, detail="Internal Server Error")
     
 
+@router.get("/hotels/{hotel_id}", response_model=Hotel)
+async def get_hotel_by_id(hotel_id: int):
+    conn = await get_db_connection()
+    try:
+        # Запрос для получения данных о конкретном отеле по id
+        cursor = await conn.execute("SELECT * FROM hotels WHERE id = ?", (hotel_id,))
+        row = await cursor.fetchone()
+        await conn.close()
+
+        if row is None:
+            raise HTTPException(status_code=404, detail="Hotel not found")
+
+        hotel = {
+            "id": row["id"],
+            "name": row["name"],
+            "phone": row["phone"],
+            "hotel_owner_name": row["hotel_owner_name"],
+            "hotel_owner_surname": row["hotel_owner_surname"],
+            "location": row["location"],
+            "conditions": row["conditions"],
+            "animal_types": row["animal_types"].split(",") if row["animal_types"] else [],  # Convert to list
+            "price_per_day": row["price_per_day"],
+            "photos": row["photos"].split(",") if row["photos"] else [],  # Convert to list
+            "rating": row["rating"]
+        }
+
+        return hotel
+    except Exception as e:
+        print(f"Error fetching hotel by ID: {e}")
+        raise HTTPException(status_code=500, detail="Internal Server Error")
+
+
 # endpoint to delete a hotel by ID
 @router.delete("/hotels/{hotel_id}")
 async def delete_hotel_by_id(hotel_id: int):

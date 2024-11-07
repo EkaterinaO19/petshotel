@@ -5,9 +5,11 @@ import Image from 'next/image';
 import { FiChevronRight, FiChevronLeft, FiStar } from "react-icons/fi";
 import noPhotoImg from '../assets/no-photo.png';
 import { FiHeart } from "react-icons/fi";
+import { useRouter } from 'next/navigation';
 
 
 const HotelCard: React.FC<HotelCardMiniProps> = ({
+    id,
     name,
     hotelOwnerName,
     location,
@@ -27,8 +29,13 @@ const HotelCard: React.FC<HotelCardMiniProps> = ({
         setCurrentSlide((prev) => (prev === 0 ? photos.length - 1 : prev - 1))
     }
 
+    const router = useRouter();
+    const handleCardClick = () => {
+        router.push(`/hotels/${id}`)
+    }
+
     return (
-        <div className={styles.hotelCard}>
+        <div className={styles.hotelCard} onClick={handleCardClick}>
              <div className={styles.sliderContainer}>
                 <FiHeart className={styles.heartIcon}/>
                 <div className={styles.sliderWrapper}>
