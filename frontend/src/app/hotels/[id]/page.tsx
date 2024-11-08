@@ -1,8 +1,12 @@
+<<<<<<< HEAD
 
 
 import axios from 'axios';
 import styles from '../../styles/HotelPage.module.scss'
 
+=======
+import axios from 'axios';
+>>>>>>> 51f36e29bcc35537391586bc57d0e8205bfed61c
 
 interface Hotel {
   id: number;
@@ -12,7 +16,10 @@ interface Hotel {
   rating: number;
   animal_types: string[];
   photos: string[];
+<<<<<<< HEAD
   reviews: { user: string; comment: string; rating: number }[]; 
+=======
+>>>>>>> 51f36e29bcc35537391586bc57d0e8205bfed61c
 }
 
 interface HotelPageProps {
@@ -21,7 +28,10 @@ interface HotelPageProps {
 
 const HotelPage = async ({ params }: { params: { id: string } }) => {
   const { id } = params;
+<<<<<<< HEAD
 
+=======
+>>>>>>> 51f36e29bcc35537391586bc57d0e8205bfed61c
   
   // Получаем данные о конкретном отеле
   let hotel: Hotel | null = null;
@@ -36,6 +46,7 @@ const HotelPage = async ({ params }: { params: { id: string } }) => {
     return <div>Отель не найден</div>;
   }
 
+<<<<<<< HEAD
 
   const handleBooking = () => {
     console.log('Redirecting to booking page...');
@@ -92,6 +103,20 @@ const HotelPage = async ({ params }: { params: { id: string } }) => {
           <p>Нет отзывов для этого отеля.</p>
         )}
       </div>
+=======
+  return (
+    <div>
+      <h1>{hotel.name}</h1>
+      <p>{hotel.location}</p>
+      <p>{hotel.price_per_day} руб./сутки</p>
+      <p>{hotel.rating} ⭐</p>
+      <div>
+        {hotel.photos.map((photo, index) => (
+          <img key={index} src={photo} alt={`Фото ${index + 1}`} />
+        ))}
+      </div>
+      {/* Здесь можно отобразить другие данные отеля */}
+>>>>>>> 51f36e29bcc35537391586bc57d0e8205bfed61c
     </div>
   );
 };
