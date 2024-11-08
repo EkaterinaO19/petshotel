@@ -50,6 +50,7 @@ const HotelList:React.FC = () => {
                 {hotels.map((hotel) => (
                                      <HotelCard 
                                      key={hotel.id} 
+                                     id={hotel.id}
                                      name={hotel.name} 
                                      hotelOwnerName={hotel.hotelOwnerName} 
                                      location={hotel.location} 
