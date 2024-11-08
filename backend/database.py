@@ -45,6 +45,17 @@ async def create_tables():
                             photos TEXT,
                             rating REAL
                             )''')
+        
+        await db.execute('''CREATE TABLE IF NOT EXISTS reviews (
+                            id INTEGER PRIMARY KEY AUTOINCREMENT,
+                            user TEXT,
+                            comment TEXT,
+                            rating REAL,
+                            hotel_id INTEGER,
+                            FOREIGN KEY (hotel_id) REFERENCES hotels (id)
+                            )''')
+        
+        
         await db.commit()
 
 # Пример функции вставки данных в таблицу
@@ -75,3 +86,21 @@ async def delete_hotel(hotel_id: int):
         return cursor.rowcount  # Return the number of deleted rows
     finally:
         await conn.close()    
+        
+        
+async def insert_review(review_data):
+    async with aiosqlite.connect(DATABASE_NAME) as db:
+        cursor = await db.execute(
+            "INSERT INTO reviews (user, comment, rating, hotel_id) VALUES (?, ?, ?, ?)",
+            (review_data['user'], review_data['comment'], review_data['rating'], review_data['hotel_id'])
+        )
+        await db.commit()
+        return cursor.lastrowid  # Returns the ID of the inserted review
+
+
+async def get_reviews_by_hotel(hotel_id: int):
+    async with aiosqlite.connect(DATABASE_NAME) as db:
+        cursor = await db.execute("SELECT * FROM reviews WHERE hotel_id = ?", (hotel_id,))
+        reviews = await cursor.fetchall()
+        return [dict(review) for review in reviews]  # Convert reviews to a list of dictionaries
+        

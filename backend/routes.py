@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from models import OwnerData, Hotel
-from database import delete_hotel, insert_owner, insert_hotel, get_db_connection
+from database import delete_hotel, get_reviews_by_hotel, insert_owner, insert_hotel, get_db_connection
 from typing import List
 
 router = APIRouter()
@@ -97,3 +97,18 @@ async def delete_hotel_by_id(hotel_id: int):
     except Exception as e:
         print(f"Error deleting hotel: {e}")
         raise HTTPException(status_code=500, detail="Internal Server Error")    
+    
+# Route to get all reviews for a hotel
+@router.get("/hotels/{hotel_id}/reviews")
+async def get_hotel_reviews(hotel_id: int):
+    reviews = await get_reviews_by_hotel(hotel_id)
+    if not reviews:
+        raise HTTPException(status_code=404, detail="No reviews found for this hotel")
+    return reviews
+
+# Route to post a new review for a hotel
+@router.post("/hotels/{hotel_id}/reviews")
+async def add_hotel_review(hotel_id: int, review: dict):
+    review['hotel_id'] = hotel_id
+    review_id = await insert_review(review)
+    return {"message": "Review added successfully", "review_id": review_id}    

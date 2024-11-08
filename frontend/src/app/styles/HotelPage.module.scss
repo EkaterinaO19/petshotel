@@ -1,0 +1,122 @@
+// HotelPage.module.scss
+
+.hotelPage {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .hotelHeader {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .hotelHeader h1 {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .location {
+    font-size: 1.2rem;
+    color: #777;
+    margin-bottom: 10px;
+  }
+  
+  .rating, .price {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #007bff;
+    margin-top: 5px;
+  }
+  
+  .photos {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+    margin-top: 40px;
+  }
+  
+  .photo {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    object-fit: cover;
+  }
+  
+  .animalTypes {
+    margin-top: 30px;
+  }
+  
+  .animalTypes h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #333;
+  }
+  
+  .animalTypes ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .animalTypes li {
+    font-size: 1.2rem;
+  }
+  
+  .bookingButtonContainer {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .bookingButton {
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .bookingButton:hover {
+    background-color: #218838;
+  }
+  
+  /* Back button styling */
+  .backButton {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+  }
+  
+  .backButton:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Reviews Section */
+  .reviews {
+    margin-top: 40px;
+  }
+  
+  .reviews h3 {
+    font-size: 1.8rem;
+    color: #333;
+  }
+  
+  .review {
+    background-color: #f9f9f9;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+  }
+  
+  .review p {
+    margin: 5px 0;
+  }
+  

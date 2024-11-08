@@ -42,6 +42,18 @@ async def initialize_db():
                 rating REAL
             )
         ''')
+        
+        
+         # Create reviews table
+        await db.execute('''CREATE TABLE IF NOT EXISTS reviews (
+                            id INTEGER PRIMARY KEY AUTOINCREMENT,
+                            user TEXT,
+                            comment TEXT,
+                            rating REAL,
+                            hotel_id INTEGER,
+                            FOREIGN KEY (hotel_id) REFERENCES hotels (id)
+                            )''')
+        
 
         await db.commit()
         print("База данных и таблицы успешно созданы!")
