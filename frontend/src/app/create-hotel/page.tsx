@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import styles from '@/app/styles/CreateHotelPage.module.scss';
+import Link from 'next/link';
 
 
 const CreateHotelPage = () => {
@@ -72,10 +73,14 @@ const CreateHotelPage = () => {
     return (
         <main>
             <div className={styles.registerHotelPage}>
+            <Link href={'/'}>
+                <button className={styles.backButton}>Назад</button>
+            </Link>
+
             <h1>Регистрация Гостиницы</h1>
             <form onSubmit={handleSubmit} className={styles.form}>
                 <label>
-                Назвние Гостиницы:
+                Название Гостиницы:
                 <input type="text" name="name" value={formData.name} onChange={handleFormChange} required />
                 </label>
                 <label>

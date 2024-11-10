@@ -74,7 +74,7 @@ const HotelCard: React.FC<HotelCardMiniProps> = ({
                 <p><strong>Владелец:</strong> {hotelOwnerName}</p>
                 <p><strong>Местоположение:</strong> {location}</p>
                 <p><strong>Животные:</strong> {animalTypes}</p>
-                <p><strong>Цена/сут.:</strong> руб.{pricePerDay}</p>
+                <p><strong>Цена/сут.:</strong> {pricePerDay} руб.</p>
                 <p><strong>Рейтинг:</strong> {rating} <FiStar /></p>
             </div>
         </div>
