@@ -1,12 +1,7 @@
-<<<<<<< HEAD
-
-
 import axios from 'axios';
-import styles from '../../styles/HotelPage.module.scss'
+import styles from '../../styles/HotelPage.module.scss';
+import Link from 'next/link'
 
-=======
-import axios from 'axios';
->>>>>>> 51f36e29bcc35537391586bc57d0e8205bfed61c
 
 interface Hotel {
   id: number;
@@ -16,49 +11,37 @@ interface Hotel {
   rating: number;
   animal_types: string[];
   photos: string[];
-<<<<<<< HEAD
-  reviews: { user: string; comment: string; rating: number }[]; 
-=======
->>>>>>> 51f36e29bcc35537391586bc57d0e8205bfed61c
+  reviews: { user: string; comment: string; rating: number }[];
 }
 
 interface HotelPageProps {
-  hotel: Hotel;
+  params: { id: string };
 }
 
-const HotelPage = async ({ params }: { params: { id: string } }) => {
+const HotelPage = async ({ params }: HotelPageProps) => {
   const { id } = params;
-<<<<<<< HEAD
 
-=======
->>>>>>> 51f36e29bcc35537391586bc57d0e8205bfed61c
-  
-  // Получаем данные о конкретном отеле
   let hotel: Hotel | null = null;
+
   try {
-    const response = await axios.get(`http://127.0.0.1:8000/hotels/${id}`);
-    hotel = response.data;
+    const hotelResponse = await axios.get(`http://127.0.0.1:8000/hotels/${id}`);
+    const reviewsResponse = await axios.get(`http://127.0.0.1:8000/hotels/${id}/reviews`);
+    hotel = { ...hotelResponse.data, reviews: reviewsResponse.data };
   } catch (error) {
-    console.error('Error fetching hotel:', error);
+    console.error('Error fetching hotel data:', error);
   }
 
   if (!hotel) {
     return <div>Отель не найден</div>;
   }
 
-<<<<<<< HEAD
-
-  const handleBooking = () => {
-    console.log('Redirecting to booking page...');
-    // Example: router.push(`/booking/${hotel.id}`);
-  };
-
   return (
     <div className={styles.hotelPage}>
       {/* Back button */}
-      <button className={styles.backButton}>
-        Назад
-      </button>
+      <Link href={'/'}>
+        <button className={styles.backButton}>Назад</button>
+      </Link>
+      
 
       <div className={styles.hotelHeader}>
         <h1>{hotel.name}</h1>
@@ -82,17 +65,15 @@ const HotelPage = async ({ params }: { params: { id: string } }) => {
         </ul>
       </div>
 
-      {/* Add the "Забронировать" button */}
+      {/* Booking Button */}
       <div className={styles.bookingButtonContainer}>
-        <button className={styles.bookingButton}>
-          Забронировать
-        </button>
+        <button className={styles.bookingButton}>Забронировать</button>
       </div>
 
       {/* Reviews Section */}
       <div className={styles.reviews}>
         <h3>Отзывы:</h3>
-        {hotel?.reviews?.length > 0 ? (
+        {hotel.reviews.length > 0 ? (
           hotel.reviews.map((review, index) => (
             <div key={index} className={styles.review}>
               <p><strong>{review.user}</strong> (Рейтинг: {review.rating}⭐)</p>
@@ -103,20 +84,6 @@ const HotelPage = async ({ params }: { params: { id: string } }) => {
           <p>Нет отзывов для этого отеля.</p>
         )}
       </div>
-=======
-  return (
-    <div>
-      <h1>{hotel.name}</h1>
-      <p>{hotel.location}</p>
-      <p>{hotel.price_per_day} руб./сутки</p>
-      <p>{hotel.rating} ⭐</p>
-      <div>
-        {hotel.photos.map((photo, index) => (
-          <img key={index} src={photo} alt={`Фото ${index + 1}`} />
-        ))}
-      </div>
-      {/* Здесь можно отобразить другие данные отеля */}
->>>>>>> 51f36e29bcc35537391586bc57d0e8205bfed61c
     </div>
   );
 };

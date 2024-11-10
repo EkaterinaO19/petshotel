@@ -15,7 +15,7 @@ const Navbar: React.FC = () => {
 
             <ul className={styles.menu}>
                 <li><Link href="/">Главная</Link></li>
-                <li>Зарегистрировать гостиницу</li>
+                <li><Link href='create-hotel'>Зарегистрировать гостиницу</Link></li>
                 <li>Связаться с нами</li>
             </ul>
             <DropdownButton />

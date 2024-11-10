@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
-from models import OwnerData, Hotel
-from database import delete_hotel, get_reviews_by_hotel, insert_owner, insert_hotel, get_db_connection
+from models import OwnerData, Hotel, Review
+from database import delete_hotel, get_reviews_by_hotel, insert_owner, insert_hotel, get_db_connection, insert_review
 from typing import List
 
 router = APIRouter()
@@ -102,13 +102,19 @@ async def delete_hotel_by_id(hotel_id: int):
 @router.get("/hotels/{hotel_id}/reviews")
 async def get_hotel_reviews(hotel_id: int):
     reviews = await get_reviews_by_hotel(hotel_id)
-    if not reviews:
-        raise HTTPException(status_code=404, detail="No reviews found for this hotel")
-    return reviews
+    if reviews is None:
+        raise HTTPException(status_code=404, detail="Reviews not found")
+    return reviews  # Ensure this is a list of reviews or a valid structure
 
 # Route to post a new review for a hotel
 @router.post("/hotels/{hotel_id}/reviews")
-async def add_hotel_review(hotel_id: int, review: dict):
-    review['hotel_id'] = hotel_id
-    review_id = await insert_review(review)
-    return {"message": "Review added successfully", "review_id": review_id}    
+async def add_hotel_review(hotel_id: int, review: Review):
+    review_data = review.dict()  # Convert Pydantic model to dictionary
+    review_data['hotel_id'] = hotel_id  # Add hotel_id separately
+    review_id = await insert_review(review_data)  # Insert review with hotel_id
+    return {"message": "Review added successfully", "review_id": review_id}
+
+
+
+
+
