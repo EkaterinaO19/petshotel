@@ -67,7 +67,9 @@ const HotelPage = async ({ params }: HotelPageProps) => {
 
       {/* Booking Button */}
       <div className={styles.bookingButtonContainer}>
+      <Link href={'/book-hotel'}>
         <button className={styles.bookingButton}>Забронировать</button>
+      </Link>  
       </div>
 
       {/* Reviews Section */}

@@ -4,6 +4,14 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import styles from '@/app/styles/CreateHotelPage.module.scss';
 import Link from 'next/link';
+import { UploadOutlined } from '@ant-design/icons';
+import { Button, Upload, message as antdMessage } from 'antd';
+import type { UploadFile, UploadProps } from 'antd';
+import { RcFile } from 'antd/lib/upload';
+
+
+
+const { Dragger } = Upload;
 
 
 const CreateHotelPage = () => {
@@ -17,7 +25,8 @@ const CreateHotelPage = () => {
         conditions: '',
         animal_types: '',
         price_per_day: 0,
-        photos: [] as File[],
+        // photos: [] as File[],
+        photos: [] as UploadFile[],  // Массив файлов для загрузки
         rating: 0,
     })
 
@@ -30,14 +39,21 @@ const CreateHotelPage = () => {
     }
 
 
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (e.target.files) {
-          setFormData({
-            ...formData,
-            photos: Array.from(e.target.files),  
-          });
-        }
-      };
+    // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    //     if (e.target.files) {
+    //       setFormData({
+    //         ...formData,
+    //         photos: Array.from(e.target.files),  
+    //       });
+    //     }
+    //   };
+
+    const handleFileChange: UploadProps['onChange'] = ({ fileList }) => {
+      setFormData({
+          ...formData,
+          photos: fileList,  // Обновляем список файлов
+      });
+  };
 
 
       const handleSubmit = async (e: React.FormEvent) => {
@@ -69,6 +85,7 @@ const CreateHotelPage = () => {
       };
     
 
+      
 
     return (
         <main>
@@ -112,10 +129,30 @@ const CreateHotelPage = () => {
                 Стоимость/сут.:
                 <input type="number" name="price_per_day" value={formData.price_per_day} onChange={handleFormChange} required />
                 </label>
-                <label>
+                {/* <label>
                 Фото:
                 <input type="file" name="photos" onChange={handleFileChange} accept="image/*"  />
-                </label>
+                </label> */}
+
+                {/*  */}
+                <label>
+                        Фото:
+                        <Dragger
+                            name="photos"
+                            multiple
+                            beforeUpload={() => false}  // Отключаем автоматическую загрузку
+                            onChange={handleFileChange}
+                            fileList={formData.photos}  // Передаем список файлов
+                        >
+                            <p className="ant-upload-drag-icon">
+                                <UploadOutlined />
+                            </p>
+                            <p className="ant-upload-text">Перетащите файлы сюда или кликните для загрузки</p>
+                        </Dragger>
+                    </label>
+
+
+
                 <button type="submit">Зарегистрировать</button>
             </form>
             {message && <p>{message}</p>}

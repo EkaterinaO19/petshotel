@@ -3,8 +3,9 @@
 import React, { useEffect, useState } from 'react';
 import { fetchHotels } from '../utils/api';
 import { Hotel } from '../interfaces/interface';
-import HotelCard from '../components/HotelCard'
-import styles from '../styles/HotelList.module.scss'
+import HotelCard from '../components/HotelCard';
+import { Pagination } from 'antd';
+import styles from '../styles/HotelList.module.scss';
 
 
 
@@ -61,6 +62,8 @@ const HotelList:React.FC = () => {
                                  />
                 ))}
             </div>
+            <Pagination align="center" defaultCurrent={1} total={50} />
+    
     </div>
     )
 }
