@@ -23,16 +23,3 @@ export const fetchHotels = async (page = 1, pageSize = 10) => {
     }
 };
 
-// export const fetchHotels = async () => {
-//     try {
-//         const response = await axios.get(`${API_URL}hotels`, {
-//             headers: {
-//                 'Accept': 'application/json',
-//             },
-//         });
-//         return response.data;
-//     } catch (error) {
-//         console.error('Error fetching hotels:', error);
-//         throw error; // Re-throw the error for further handling
-//     }
-// };

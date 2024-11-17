@@ -78,7 +78,6 @@ const HotelList:React.FC = () => {
                 pageSize={pageSize}    // Controlled page size
                 total={total}          // Total number of hotels
                 onChange={handlePageChange} // Handle page change
-                showSizeChanger        // Option to change page size
             />
         </div>
     )

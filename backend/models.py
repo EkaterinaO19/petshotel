@@ -9,14 +9,14 @@ class Review(BaseModel):
     rating: Optional[int] = Field(None, ge=1, le=5, example=5)
     hotel_id: int
 
-    # class Config:
-    #     schema_extra = {
-    #         "example": {
-    #             "user": "alex",
-    #             "comment": "Great hotel with excellent service!",
-    #             "rating": 5
-    #         }
-    #     }
+    class Config:
+        schema_extra = {
+            "example": {
+                "user": "alex",
+                "comment": "Great hotel with excellent service!",
+                "rating": 5
+            }
+        }
 
 class OwnerData(BaseModel):
     name: str
