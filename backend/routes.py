@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException
+from fastapi import APIRouter, HTTPException, Query
 from models import OwnerData, Hotel, Review
 from database import delete_hotel, get_reviews_by_hotel, insert_owner, insert_hotel, get_db_connection, insert_review
 from typing import List
@@ -15,17 +15,20 @@ async def register_hotel(hotel_data: Hotel):
     hotel_id = await insert_hotel(hotel_data.dict())
     return {"message": "Hotel registered successfully", "hotel_id": hotel_id}
 
+
 @router.get("/hotels", response_model=List[Hotel])
-async def get_all_hotels():
+async def get_all_hotels(page: int = Query(1, ge=1), page_size: int = Query(10, ge=1, le=100)):
+    offset = (page - 1) * page_size
     conn = await get_db_connection()
     try:
-        cursor = await conn.execute("SELECT * FROM hotels")
-        rows = await cursor.fetchall()
-        await conn.close()
+        query = f"SELECT * FROM hotels LIMIT {page_size} OFFSET {offset}"
+        cursor = await conn.execute(query)
+        hotel_rows = await cursor.fetchall()
 
-        # Convert rows to dictionaries
         hotels = []
-        for row in rows:
+
+        for row in hotel_rows:
+            # Convert the data from the database into a valid Hotel object
             hotel = {
                 "id": row["id"],
                 "name": row["name"],
@@ -34,53 +37,29 @@ async def get_all_hotels():
                 "hotel_owner_surname": row["hotel_owner_surname"],
                 "location": row["location"],
                 "conditions": row["conditions"],
-                "animal_types": row["animal_types"].split(",") if row["animal_types"] else [],  # Convert to list
+                "animal_types": row["animal_types"].split(",") if row["animal_types"] else [],  # Convert CSV to list
                 "price_per_day": row["price_per_day"],
-                "photos": row["photos"].split(",") if row["photos"] else [],  # Convert to list
+                "photos": row["photos"].split(",") if row["photos"] else [],  # Convert CSV to list
                 "rating": row["rating"]
             }
+
+            # Add reviews for the hotel
+            reviews = await get_reviews_by_hotel(hotel["id"])
+            hotel["reviews"] = reviews
+
             hotels.append(hotel)
 
         if not hotels:
             raise HTTPException(status_code=404, detail="No hotels found")
 
-        return hotels
+        return hotels  # Return the list directly
     except Exception as e:
         print(f"Error fetching hotels: {e}")
         raise HTTPException(status_code=500, detail="Internal Server Error")
-    
-
-@router.get("/hotels/{hotel_id}", response_model=Hotel)
-async def get_hotel_by_id(hotel_id: int):
-    conn = await get_db_connection()
-    try:
-        # Запрос для получения данных о конкретном отеле по id
-        cursor = await conn.execute("SELECT * FROM hotels WHERE id = ?", (hotel_id,))
-        row = await cursor.fetchone()
+    finally:
         await conn.close()
 
-        if row is None:
-            raise HTTPException(status_code=404, detail="Hotel not found")
-
-        hotel = {
-            "id": row["id"],
-            "name": row["name"],
-            "phone": row["phone"],
-            "hotel_owner_name": row["hotel_owner_name"],
-            "hotel_owner_surname": row["hotel_owner_surname"],
-            "location": row["location"],
-            "conditions": row["conditions"],
-            "animal_types": row["animal_types"].split(",") if row["animal_types"] else [],  # Convert to list
-            "price_per_day": row["price_per_day"],
-            "photos": row["photos"].split(",") if row["photos"] else [],  # Convert to list
-            "rating": row["rating"]
-        }
-
-        return hotel
-    except Exception as e:
-        print(f"Error fetching hotel by ID: {e}")
-        raise HTTPException(status_code=500, detail="Internal Server Error")
-
+        
 
 # endpoint to delete a hotel by ID
 @router.delete("/hotels/{hotel_id}")

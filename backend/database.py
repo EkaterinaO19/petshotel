@@ -98,8 +98,6 @@ async def insert_review(review_data):
         return cursor.lastrowid  # Returns the ID of the inserted review
 
 
-
-
 async def get_reviews_by_hotel(hotel_id: int):
     async with aiosqlite.connect(DATABASE_NAME) as db:
         # Enable Row Factory to get results as dictionaries
