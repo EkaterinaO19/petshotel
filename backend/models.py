@@ -38,7 +38,10 @@ class Hotel(BaseModel):
     rating: float
     reviews: Optional[List[Review]] = []  # Reviews as a list
     
-    
+
+class HotelsResponse(BaseModel):
+    data: List[Hotel]
+    total: int    
 
 # class HotelIn(BaseModel):
 #     id: int

@@ -1,7 +1,7 @@
 from fastapi import APIRouter, HTTPException, Query
-from models import OwnerData, Hotel, Review
+from models import HotelsResponse, OwnerData, Hotel, Review
 from database import delete_hotel, get_reviews_by_hotel, insert_owner, insert_hotel, get_db_connection, insert_review
-from typing import List
+from typing import List, Dict
 
 router = APIRouter()
 
@@ -16,11 +16,13 @@ async def register_hotel(hotel_data: Hotel):
     return {"message": "Hotel registered successfully", "hotel_id": hotel_id}
 
 
-@router.get("/hotels", response_model=List[Hotel])
+@router.get("/hotels", response_model=HotelsResponse) 
 async def get_all_hotels(page: int = Query(1, ge=1), page_size: int = Query(10, ge=1, le=100)):
     offset = (page - 1) * page_size
     conn = await get_db_connection()
+    
     try:
+        # Query to get paginated hotels
         query = f"SELECT * FROM hotels LIMIT {page_size} OFFSET {offset}"
         cursor = await conn.execute(query)
         hotel_rows = await cursor.fetchall()
@@ -28,7 +30,6 @@ async def get_all_hotels(page: int = Query(1, ge=1), page_size: int = Query(10, 
         hotels = []
 
         for row in hotel_rows:
-            # Convert the data from the database into a valid Hotel object
             hotel = {
                 "id": row["id"],
                 "name": row["name"],
@@ -37,13 +38,13 @@ async def get_all_hotels(page: int = Query(1, ge=1), page_size: int = Query(10, 
                 "hotel_owner_surname": row["hotel_owner_surname"],
                 "location": row["location"],
                 "conditions": row["conditions"],
-                "animal_types": row["animal_types"].split(",") if row["animal_types"] else [],  # Convert CSV to list
+                "animal_types": row["animal_types"].split(",") if row["animal_types"] else [],
                 "price_per_day": row["price_per_day"],
-                "photos": row["photos"].split(",") if row["photos"] else [],  # Convert CSV to list
+                "photos": row["photos"].split(",") if row["photos"] else [],
                 "rating": row["rating"]
             }
 
-            # Add reviews for the hotel
+            # Add reviews for each hotel (optional)
             reviews = await get_reviews_by_hotel(hotel["id"])
             hotel["reviews"] = reviews
 
@@ -52,13 +53,20 @@ async def get_all_hotels(page: int = Query(1, ge=1), page_size: int = Query(10, 
         if not hotels:
             raise HTTPException(status_code=404, detail="No hotels found")
 
-        return hotels  # Return the list directly
+        # Query to get the total number of hotels
+        count_query = "SELECT COUNT(*) AS total FROM hotels"
+        total_cursor = await conn.execute(count_query)
+        total_result = await total_cursor.fetchone()
+        total_hotels = total_result["total"]
+
+        # Return the hotels data along with the total number of hotels
+        return {"data": hotels, "total": total_hotels}
+
     except Exception as e:
         print(f"Error fetching hotels: {e}")
         raise HTTPException(status_code=500, detail="Internal Server Error")
     finally:
         await conn.close()
-
         
 
 # endpoint to delete a hotel by ID
