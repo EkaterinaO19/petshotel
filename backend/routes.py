@@ -1,14 +1,79 @@
-from fastapi import APIRouter, HTTPException, Query
-from models import HotelsResponse, OwnerData, Hotel, Review
+import os
+from fastapi import APIRouter, Depends, HTTPException, Query
+import jwt
+from models import HotelsResponse, OwnerData, Hotel, Review, HotelOwnerRegister, HotelOwnerLogin
 from database import delete_hotel, get_reviews_by_hotel, insert_owner, insert_hotel, get_db_connection, insert_review
 from typing import List, Dict
+from utils import ALGORITHM, SECRET_KEY, create_access_token, verify_password, get_password_hash
+from fastapi.security import OAuth2PasswordBearer
+from datetime import timedelta
+from pydantic import EmailStr
+from passlib.context import CryptContext
+from database import insert_owner
 
 router = APIRouter()
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
+# OAuth2PasswordBearer to get the token from the request
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
+
+# Register the owner in the database
 @router.post("/register/owner")
 async def register_owner(owner_data: OwnerData):
-    owner_id = await insert_owner(owner_data.dict())
+    # Hash the password before saving it
+    hashed_password = pwd_context.hash(owner_data.password)
+
+    # Use insert_owner from the database module to insert the owner data
+    owner_id = await insert_owner({
+        'name': owner_data.name,
+        'surname': owner_data.surname,
+        'email': owner_data.email,
+        'phone': owner_data.phone,
+    })
+
     return {"message": "Owner registered successfully", "owner_id": owner_id}
+
+
+
+# Route for hotel owner login
+# @router.post("/login")
+# async def login(owner: HotelOwnerLogin):
+#     # Check if the email exists
+#     if owner.email not in fake_db:
+#         raise HTTPException(status_code=400, detail="Incorrect email or password")
+    
+#     # Verify the password
+#     stored_owner = fake_db[owner.email]
+#     if not verify_password(owner.password, stored_owner["password"]):
+#         raise HTTPException(status_code=400, detail="Incorrect email or password")
+    
+#     # Create JWT token
+#     access_token = create_access_token(data={"sub": owner.email})
+    
+#     return {"access_token": access_token, "token_type": "bearer"}
+
+# # Function to get the current user from the token
+# def get_current_user(token: str = Depends(oauth2_scheme)):
+#     try:
+#         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+#         email: str = payload.get("sub")
+#         if email is None:
+#             raise HTTPException(status_code=401, detail="Invalid credentials")
+#         return fake_db[email]
+#     except jwt.PyJWTError:
+#         raise HTTPException(status_code=401, detail="Invalid credentials")
+
+# Protected route for hotel registration
+# @router.post("/register_hotel")
+# async def register_hotel(hotel: Hotel, current_user: dict = Depends(get_current_user)):
+#     # Here you can add logic to save the hotel data to your database
+#     return {"msg": f"Hotel {hotel.name} registered by {current_user['name']}"}
+
+
+# @router.post("/register/owner")
+# async def register_owner(owner_data: OwnerData):
+#     owner_id = await insert_owner(owner_data.dict())
+#     return {"message": "Owner registered successfully", "owner_id": owner_id}
 
 @router.post("/register/hotel")
 async def register_hotel(hotel_data: Hotel):

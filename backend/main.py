@@ -1,7 +1,6 @@
 # main.py
 from fastapi import FastAPI
 from routes import router
-import aiosqlite
 from fastapi.responses import JSONResponse
 from database import create_tables  
 from fastapi.middleware.cors import CORSMiddleware
