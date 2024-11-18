@@ -1,10 +1,61 @@
+"use client"
+
 import React from 'react';
+import { Button, Checkbox, Form, Input, Space  } from 'antd';
+import styles from '@/app/styles/LoginPage.module.scss'
+
+type FieldType = {
+    email?: string;
+    password?: string;
+    remember?: string;
+  };
 
 export default function Login() {
     return (
-        <main>
-            <h1>Login</h1>
-            {/* Add your login form here */}
+        <main className={styles.container}>
+            <h1>Вход</h1>
+            <Form
+                name="basic"
+                labelCol={{ span: 8 }}
+                wrapperCol={{ span: 16 }}
+                style={{ maxWidth: 600 }}
+                initialValues={{ remember: true }}
+                // onFinish={onFinish}
+                // onFinishFailed={onFinishFailed}
+                autoComplete="on"
+            >
+                <Form.Item<FieldType>
+                label="Эл. почта"
+                name="email"
+                rules={[{ required: true, message: 'Please input your email!' }]}
+                >
+                <Input />
+                </Form.Item>
+
+                <Form.Item<FieldType>
+                label="Пароль"
+                name="password"
+                rules={[{ required: true, message: 'Please input your password!' }]}
+                >
+                <Input.Password />
+                </Form.Item>
+
+                <Space>
+                <Form.Item<FieldType> name="remember" valuePropName="checked" label={null}>
+                <Checkbox>Запомнить меня</Checkbox>
+                </Form.Item>
+
+                <Button type="link" htmlType="button">
+                    Зарегистрироваться
+                </Button>
+                </Space>
+
+                <Form.Item label={null}>
+                <Button type="primary" htmlType="submit">
+                    Войти
+                </Button>
+                </Form.Item>
+            </Form>
         </main>
     );
 }
