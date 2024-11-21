@@ -12,8 +12,9 @@ type FieldType = {
 
 export default function Login() {
     return (
+        
         <main className={styles.container}>
-            <h1>Вход</h1>
+            <h1 className={styles.title}>Вход</h1>
             <Form
                 name="basic"
                 labelCol={{ span: 8 }}
@@ -27,7 +28,7 @@ export default function Login() {
                 <Form.Item<FieldType>
                 label="Эл. почта"
                 name="email"
-                rules={[{ required: true, message: 'Please input your email!' }]}
+                rules={[{ required: true, message: 'Пожалуйста, введите адрес эл. почты!' }]}
                 >
                 <Input />
                 </Form.Item>
@@ -35,7 +36,7 @@ export default function Login() {
                 <Form.Item<FieldType>
                 label="Пароль"
                 name="password"
-                rules={[{ required: true, message: 'Please input your password!' }]}
+                rules={[{ required: true, message: 'Пожалуйста, ведите пароль!' }]}
                 >
                 <Input.Password />
                 </Form.Item>
@@ -45,13 +46,13 @@ export default function Login() {
                 <Checkbox>Запомнить меня</Checkbox>
                 </Form.Item>
 
-                <Button type="link" htmlType="button">
+                <Button type="link" htmlType="button" style={{color:'#022f4f'}}>
                     Зарегистрироваться
                 </Button>
                 </Space>
 
                 <Form.Item label={null}>
-                <Button type="primary" htmlType="submit">
+                <Button type="primary" htmlType="submit" style={{backgroundColor:'#022f4f'}}>
                     Войти
                 </Button>
                 </Form.Item>

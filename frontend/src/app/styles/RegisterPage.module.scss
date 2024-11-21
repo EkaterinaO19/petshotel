@@ -2,4 +2,11 @@
     display: flex;
     align-items: center;
     flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+}
+
+.title {
+    color: #022f4f;
+    margin-bottom: 2vh;
 }

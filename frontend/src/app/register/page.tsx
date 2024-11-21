@@ -30,7 +30,7 @@ export default function Register() {
 
     return (
         <main className={styles.container}>
-            <h1>Зарегистрироваться</h1>
+            <h1 className={styles.title}>Зарегистрироваться</h1>
             <Form
                 name="register"
                 initialValues={{ prefix: '8' }}
@@ -41,7 +41,7 @@ export default function Register() {
 <Form.Item
                     name="name"
                     label="Имя"
-                    rules={[{ required: true, message: 'Please input your name!', whitespace: true }]}
+                    rules={[{ required: true, message: 'Пожалуйста, введите имя!', whitespace: true }]}
                 >
                     <Input />
                 </Form.Item>
@@ -49,7 +49,7 @@ export default function Register() {
                 <Form.Item
                     name="surname"
                     label="Фамилия"
-                    rules={[{ required: true, message: 'Please input your surname!', whitespace: true }]}
+                    rules={[{ required: true, message: 'Пожалуйста, введите фамилию!', whitespace: true }]}
                 >
                     <Input />
                 </Form.Item>    
@@ -60,11 +60,11 @@ export default function Register() {
                     rules={[
                     {
                         type: 'email',
-                        message: 'The input is not valid E-mail!',
+                        message: 'Адрес эл. почты введен неверно!',
                     },
                     {
                         required: true,
-                        message: 'Please input your E-mail!',
+                        message: 'Пожалуйста, введите адрес эл. почты!',
                     },
                     ]}
                 >
@@ -77,7 +77,7 @@ export default function Register() {
                     rules={[
                     {
                         required: true,
-                        message: 'Please input your password!',
+                        message: 'Пожалуйста, введите пароль!',
                     },
                     ]}
                     hasFeedback
@@ -93,14 +93,14 @@ export default function Register() {
                     rules={[
                     {
                         required: true,
-                        message: 'Please confirm your password!',
+                        message: 'Пожалуйста, подтвердите пароль!',
                     },
                     ({ getFieldValue }) => ({
                         validator(_, value) {
                         if (!value || getFieldValue('password') === value) {
                             return Promise.resolve();
                         }
-                        return Promise.reject(new Error('The new password that you entered do not match!'));
+                        return Promise.reject(new Error('Пароли не совпадают!'));
                         },
                     }),
                     ]}
@@ -112,7 +112,7 @@ export default function Register() {
                 <Form.Item
                     name="phone"
                     label="Номер телефона"
-                    rules={[{ required: true, message: 'Please input your phone number!' }]}
+                    rules={[{ required: true, message: 'Пожалуйста, введите номер телефона!' }]}
                 >
                     <Input addonBefore={prefixSelector} style={{ width: '100%' }} />
                 </Form.Item>
@@ -123,7 +123,7 @@ export default function Register() {
                     rules={[
                     {
                         validator: (_, value) =>
-                        value ? Promise.resolve() : Promise.reject(new Error('Should accept agreement')),
+                        value ? Promise.resolve() : Promise.reject(new Error('Необходимо дать согласие на обработку персональных данных!')),
                     },
                     ]}
                 >
@@ -132,7 +132,7 @@ export default function Register() {
                     </Checkbox>
                 </Form.Item>
                 <Form.Item >
-                    <Button type="primary" htmlType="submit">
+                    <Button type="primary" htmlType="submit" style={{backgroundColor:'#022f4f'}}>
                     Зарегистрироваться
                     </Button>
                 </Form.Item>
