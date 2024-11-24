@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app  # Монтируем папку backend целиком
+      - ./backend/pet_hotel.db:/app/pet_hotel.db  # Монтируем файл базы данных напрямую
+    # Здесь убираем зависимость от frontend, так как frontend зависит от backend
+    depends_on:
+      - sqlite
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+    # Фронтенд зависит от бэкенда
+    depends_on:
+      - backend
+
+  sqlite:
+    image: nouchka/sqlite3
+    container_name: sqlite
+    volumes:
+      - ./backend/pet_hotel.db:/data/pet_hotel.db  # Монтируем файл базы данных в контейнер sqlite
+    environment:
+      SQLITE_DATABASE: "/data/pet_hotel.db"  # Путь к базе данных для использования в бэкенде
