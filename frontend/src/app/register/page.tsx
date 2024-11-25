@@ -8,9 +8,8 @@ import {
   Input,
   Select,
 } from 'antd';
-import styles from '@/app/styles/RegisterPage.module.scss'
-
-
+import styles from '@/app/styles/RegisterPage.module.scss';
+import Link from 'next/link';
 
 
 export default function Register() {
@@ -25,11 +24,13 @@ export default function Register() {
           </Select>
         </Form.Item>
       );
-    
-
 
     return (
-        <main className={styles.container}>
+        <>
+        <Link href={'/'}>
+            <p className={styles.backButton}>Назад</p>
+        </Link>
+        <div className={styles.container}>
             <h1 className={styles.title}>Зарегистрироваться</h1>
             <Form
                 name="register"
@@ -38,7 +39,7 @@ export default function Register() {
                 scrollToFirstError
                 >
 
-<Form.Item
+                <Form.Item
                     name="name"
                     label="Имя"
                     rules={[{ required: true, message: 'Пожалуйста, введите имя!', whitespace: true }]}
@@ -137,6 +138,7 @@ export default function Register() {
                     </Button>
                 </Form.Item>
             </Form>
-        </main>
+        </div>    
+        </>
     );
 }

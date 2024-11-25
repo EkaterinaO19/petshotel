@@ -7,8 +7,6 @@ import Link from 'next/link';
 import { UploadOutlined } from '@ant-design/icons';
 import { Button, Upload, message as antdMessage } from 'antd';
 import type { UploadFile, UploadProps } from 'antd';
-import { RcFile } from 'antd/lib/upload';
-
 
 
 const { Dragger } = Upload;
@@ -26,7 +24,7 @@ const CreateHotelPage = () => {
         animal_types: '',
         price_per_day: 0,
         // photos: [] as File[],
-        photos: [] as UploadFile[],  // Массив файлов для загрузки
+        photos: [] as UploadFile[],  
         rating: 0,
     })
 
@@ -39,19 +37,10 @@ const CreateHotelPage = () => {
     }
 
 
-    // const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    //     if (e.target.files) {
-    //       setFormData({
-    //         ...formData,
-    //         photos: Array.from(e.target.files),  
-    //       });
-    //     }
-    //   };
-
     const handleFileChange: UploadProps['onChange'] = ({ fileList }) => {
       setFormData({
           ...formData,
-          photos: fileList,  // Обновляем список файлов
+          photos: fileList,  
       });
   };
 
@@ -91,7 +80,7 @@ const CreateHotelPage = () => {
         <main>
             <div className={styles.registerHotelPage}>
             <Link href={'/'}>
-                <button className={styles.backButton}>Назад</button>
+                <p className={styles.backButton}>Назад</p>
             </Link>
 
             <h1>Регистрация Гостиницы</h1>

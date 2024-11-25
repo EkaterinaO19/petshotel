@@ -34,10 +34,10 @@ const DropdownButton: React.FC = () => {
       <FiMenu size="24" color="#FFFFFF"/>
       </div>
       {isDropdownOpen && (
-        <div className={styles.dropdown__menu}>
-            <Link href="/register">Зарегистрироваться</Link>
-            <Link href="/login">Вход</Link>
-        </div>
+        <ul className={styles.dropdown__menu}>
+            <li><Link href="register">Зарегистрироваться</Link></li>
+            <li><Link href="login">Вход</Link></li>
+        </ul>
       )}
     </div>
   );

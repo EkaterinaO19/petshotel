@@ -2,7 +2,9 @@
 
 import React from 'react';
 import { Button, Checkbox, Form, Input, Space  } from 'antd';
-import styles from '@/app/styles/LoginPage.module.scss'
+import styles from '@/app/styles/LoginPage.module.scss';
+import Link from 'next/link';
+
 
 type FieldType = {
     email?: string;
@@ -12,7 +14,10 @@ type FieldType = {
 
 export default function Login() {
     return (
-        
+        <>
+        <Link href={'/'}>
+            <p className={styles.backButton}>Назад</p>
+        </Link>
         <main className={styles.container}>
             <h1 className={styles.title}>Вход</h1>
             <Form
@@ -46,9 +51,12 @@ export default function Login() {
                 <Checkbox>Запомнить меня</Checkbox>
                 </Form.Item>
 
+                <Link href={'login'}>
                 <Button type="link" htmlType="button" style={{color:'#022f4f'}}>
                     Зарегистрироваться
                 </Button>
+                </Link>
+                
                 </Space>
 
                 <Form.Item label={null}>
@@ -58,5 +66,7 @@ export default function Login() {
                 </Form.Item>
             </Form>
         </main>
+        </>
+
     );
 }
