@@ -57,10 +57,10 @@ const CreateHotelPage = () => {
                 hotel_owner_surname: formData.hotel_owner_surname,
                 location: formData.location,
                 conditions: formData.conditions,
-                animal_types: formData.animal_types.split(',').map(type => type.trim()),  // Convert string to array
+                animal_types: formData.animal_types.split(',').map(type => type.trim()), 
                 price_per_day: formData.price_per_day,
-                photos: formData.photos.map(photo => photo.name),  // Map files to their names (you may need to adapt this to your backend logic)
-                rating: formData.rating,  // Include rating
+                photos: formData.photos.map(photo => photo.name), 
+                rating: formData.rating, 
               };
         
     
@@ -74,15 +74,13 @@ const CreateHotelPage = () => {
       };
     
 
-      
 
     return (
         <main>
-            <div className={styles.registerHotelPage}>
             <Link href={'/'}>
                 <p className={styles.backButton}>Назад</p>
             </Link>
-
+            <div className={styles.registerHotelPage}>
             <h1>Регистрация Гостиницы</h1>
             <form onSubmit={handleSubmit} className={styles.form}>
                 <label>
@@ -118,20 +116,14 @@ const CreateHotelPage = () => {
                 Стоимость/сут.:
                 <input type="number" name="price_per_day" value={formData.price_per_day} onChange={handleFormChange} required />
                 </label>
-                {/* <label>
-                Фото:
-                <input type="file" name="photos" onChange={handleFileChange} accept="image/*"  />
-                </label> */}
-
-                {/*  */}
                 <label>
                         Фото:
                         <Dragger
                             name="photos"
                             multiple
-                            beforeUpload={() => false}  // Отключаем автоматическую загрузку
+                            beforeUpload={() => false}
                             onChange={handleFileChange}
-                            fileList={formData.photos}  // Передаем список файлов
+                            fileList={formData.photos}  
                         >
                             <p className="ant-upload-drag-icon">
                                 <UploadOutlined />
@@ -139,9 +131,6 @@ const CreateHotelPage = () => {
                             <p className="ant-upload-text">Перетащите файлы сюда или кликните для загрузки</p>
                         </Dragger>
                     </label>
-
-
-
                 <button type="submit">Зарегистрировать</button>
             </form>
             {message && <p>{message}</p>}

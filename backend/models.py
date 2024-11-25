@@ -57,9 +57,9 @@ class Hotel(BaseModel):
     hotel_owner_surname: str
     location: str
     conditions: str
-    animal_types: List[str]  # Ensure this is a list of strings
+    animal_types: List[str]  
     price_per_day: float
-    photos: List[str]  # Ensure this is a list of strings (URLs)
+    photos: List[str]  # list of strings (URLs)
     rating: float
     reviews: Optional[List[Review]] = []  # Reviews as a list
     

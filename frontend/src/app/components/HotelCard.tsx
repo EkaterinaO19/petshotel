@@ -35,10 +35,25 @@ const HotelCard: React.FC<HotelCardMiniProps> = ({
     }
 
     return (
-        <div className={styles.hotelCard} onClick={handleCardClick}>
+        <div className={styles.hotelCard}>
              <div className={styles.sliderContainer}>
                 <FiHeart className={styles.heartIcon}/>
                 <div className={styles.sliderWrapper}>
+
+                    {photos.length === undefined && 
+                        (
+                            <div className={styles.slideActive}>
+                                 <Image
+                                        src={noPhotoImg}
+                                        alt="Placeholder"
+                                        className={styles.hotelImage}
+                                        width={100}
+                                        height={100}
+                                    />
+                            </div>
+                            )
+                    }    
+
                     {photos.length > 0 ? (
                         photos.map((photo, index) => (
                         <div key={index} className={`slide ${index === currentSlide ? 'active' : ''}`}>
@@ -69,7 +84,7 @@ const HotelCard: React.FC<HotelCardMiniProps> = ({
                 </div>
 
 
-            <div className={styles.hotelInfo}>
+            <div className={styles.hotelInfo} onClick={handleCardClick}>
                 <h4>{name}</h4>
                 <p><strong>Владелец:</strong> {hotelOwnerName}</p>
                 <p><strong>Местоположение:</strong> {location}</p>

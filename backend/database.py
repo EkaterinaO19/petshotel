@@ -100,7 +100,6 @@ async def insert_review(review_data):
 
 async def get_reviews_by_hotel(hotel_id: int):
     async with aiosqlite.connect(DATABASE_NAME) as db:
-        # Enable Row Factory to get results as dictionaries
         db.row_factory = aiosqlite.Row
         cursor = await db.execute("SELECT * FROM reviews WHERE hotel_id = ?", (hotel_id,))
         reviews = await cursor.fetchall()
