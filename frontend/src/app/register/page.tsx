@@ -1,19 +1,22 @@
 "use client"
 
-import React from 'react';
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import {
   Button,
   Checkbox,
   Form,
   Input,
   Select,
+  message
 } from 'antd';
 import styles from '@/app/styles/RegisterPage.module.scss';
 import Link from 'next/link';
 
 
 export default function Register() {
-
+  
+    const router = useRouter();
     const { Option } = Select;
 
 
@@ -24,6 +27,36 @@ export default function Register() {
           </Select>
         </Form.Item>
       );
+
+      const onFinish = async (values: { name: string; surname: string; email: string; prefix: any; phone: string; password: string; }) => {
+        try {
+          const response = await fetch('http://127.0.0.1:8000/register/owner', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'accept': 'application/json',
+            },
+            body: JSON.stringify({
+              name: values.name,
+              surname: values.surname,
+              email: values.email,
+              phone: `${values.prefix}${values.phone}`,
+              password: values.password,
+            }),
+          });
+    
+          const data = await response.json();
+          
+          if (response.ok) {
+            message.success('Регистрация прошла успешно!');
+            router.push('/login'); 
+          } else {
+            message.error(data.detail || 'Ошибка при регистрации');
+          }
+        } catch (error) {
+          message.error('Ошибка соединения с сервером. Повторите еще раз!');
+        }
+      };
 
     return (
         <>
@@ -36,6 +69,7 @@ export default function Register() {
                 name="register"
                 initialValues={{ prefix: '8' }}
                 style={{ maxWidth: 600 }}
+                onFinish={onFinish}
                 scrollToFirstError
                 >
 
@@ -138,6 +172,7 @@ export default function Register() {
                     </Button>
                 </Form.Item>
             </Form>
+
         </div>    
         </>
     );

@@ -5,7 +5,7 @@ import axios from 'axios';
 import styles from '@/app/styles/CreateHotelPage.module.scss';
 import Link from 'next/link';
 import { UploadOutlined } from '@ant-design/icons';
-import { Button, Upload, message as antdMessage } from 'antd';
+import { Upload, message as antdMessage } from 'antd';
 import type { UploadFile, UploadProps } from 'antd';
 
 

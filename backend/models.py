@@ -17,21 +17,13 @@ class Review(BaseModel):
                 "rating": 5
             }
         }
-
-# class OwnerData(BaseModel):
-#     name: str
-#     email: EmailStr
-#     password: constr(min_length=8)  # Password with a minimum length of 8 characters
-
-#     class Config:
-#         orm_mode = True
-    
+   
 class OwnerData(BaseModel):
     name: str
     surname: str
     email: str
     phone: str
-    password: str  # Add a password field to store the hashed password
+    password: str  
 
     class Config:
         orm_mode = True    
@@ -43,6 +35,10 @@ class HotelOwnerRegister(BaseModel):
     name: str
     surname: str
     phone: str
+
+class LoginRequest(BaseModel):
+    email: EmailStr
+    password: str
 
 class HotelOwnerLogin(BaseModel):
     email: EmailStr

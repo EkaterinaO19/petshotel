@@ -1,10 +1,10 @@
 "use client"
 
 import React from 'react';
-import { Button, Checkbox, Form, Input, Space  } from 'antd';
+import { Button, Checkbox, Form, Input, Space, message  } from 'antd';
 import styles from '@/app/styles/LoginPage.module.scss';
 import Link from 'next/link';
-
+import { useRouter } from 'next/navigation'; 
 
 type FieldType = {
     email?: string;
@@ -13,6 +13,40 @@ type FieldType = {
   };
 
 export default function Login() {
+    const router = useRouter();
+
+    const onFinish = async (values: FieldType) => {
+      try {
+        const response = await fetch('http://127.0.0.1:8000/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            accept: 'application/json',
+          },
+          body: new URLSearchParams({
+            grant_type: 'password',
+            username: values.email || '',
+            password: values.password || '',
+            scope: '',
+            client_id: 'string', // Update with your actual client_id
+            client_secret: 'string', // Update with your actual client_secret
+          }),
+        });
+  
+        const data = await response.json();
+  
+        if (response.ok) {
+          message.success('Вход успешен!');
+          router.push('/'); 
+        } else {
+          message.error(data.message || 'Ошибка при входе');
+        }
+      } catch (error) {
+        message.error('Ошибка соединения с сервером');
+      }
+    };
+
+
     return (
         <>
         <Link href={'/'}>
@@ -26,9 +60,8 @@ export default function Login() {
                 wrapperCol={{ span: 16 }}
                 style={{ maxWidth: 600 }}
                 initialValues={{ remember: true }}
-                // onFinish={onFinish}
-                // onFinishFailed={onFinishFailed}
                 autoComplete="on"
+                onFinish={onFinish} 
             >
                 <Form.Item<FieldType>
                 label="Эл. почта"
